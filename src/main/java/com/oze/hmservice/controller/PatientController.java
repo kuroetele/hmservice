@@ -2,6 +2,7 @@ package com.oze.hmservice.controller;
 
 import com.oze.hmservice.entity.Patient;
 import com.oze.hmservice.pojos.DeletePatientRequest;
+import com.oze.hmservice.repository.PatientRepository;
 import com.oze.hmservice.service.PatientService;
 import com.oze.hmservice.service.StaffService;
 import com.oze.hmservice.utills.Response;
@@ -50,7 +51,7 @@ public class PatientController {
         //return response.success(patientService.downloadPatient(patientId));
         return null;
     }*/
-    /*@GetMapping("/downloadPatient")
+    @GetMapping("/downloadPatient")
     public ResponseEntity<Resource> downloadPatients(@RequestHeader("staff-id") String staffUuid, @RequestParam("id") Long patientId) {
         if (!staffService.staffExist(staffUuid)) {
             response.failure("Authorization failed");
@@ -63,6 +64,6 @@ public class PatientController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType("application/csv"))
                 .body(file);
-    }*/
+    }
 
 }
