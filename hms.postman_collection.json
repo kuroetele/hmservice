@@ -1,0 +1,175 @@
+{
+	"info": {
+		"_postman_id": "e8fd88cd-9b65-4da8-be1b-ecc12cb9752a",
+		"name": "hms",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "add_staff",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Tonye Rabiu\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/hms/api/staffs/createStaff",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hms",
+						"api",
+						"staffs",
+						"createStaff"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_staff",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Bob Bob\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/hms/api/staffs/updateStaff?id=d68b307a-9190-45ab-8ef5-3bb4ac21a1d7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hms",
+						"api",
+						"staffs",
+						"updateStaff"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "d68b307a-9190-45ab-8ef5-3bb4ac21a1d7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list_patient",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "staff-id",
+						"value": "807371bd-a66a-4f1b-936a-c7964a6231a6",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/hms/api/patient/viewPatients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hms",
+						"api",
+						"patient",
+						"viewPatients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "download_patient_csv",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "staff-id",
+						"value": "807371bd-a66a-4f1b-936a-c7964a6231a6",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/hms/api/patient/downloadPatient?id=9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hms",
+						"api",
+						"patient",
+						"downloadPatient"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "9"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_patient_profile_by_date",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "staff-id",
+						"value": "1a5d4f0c-1790-44cf-8ce0-56b9369d2696",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"from\":\"2020-03-01\",\r\n     \"to\":\"2021-12-31\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/hms/api/patient/deletePatients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hms",
+						"api",
+						"patient",
+						"deletePatients"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
