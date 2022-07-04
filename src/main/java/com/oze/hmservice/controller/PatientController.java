@@ -8,6 +8,7 @@ import com.oze.hmservice.service.StaffService;
 import com.oze.hmservice.utills.Response;
 import lombok.AllArgsConstructor;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 @RestController
 @RequestMapping("/api/patient")
 @AllArgsConstructor
+@Slf4j
 public class PatientController {
 
     private final PatientService patientService;
@@ -26,20 +28,30 @@ public class PatientController {
 
     @GetMapping("/viewPatients")
     public ResponseEntity<List<Patient>> getPatientsWithAgeAboveTwo(@RequestHeader("staff-id") String staffUuid) {
-        if (!staffService.staffExist(staffUuid)) {
-            response.failure("Authorization failed");
+         
+        log.info("Get Patients List Staff ID Passed :"+staffUuid);
+        
+        if (staffService.staffExist(staffUuid.trim())) {
+            return response.success(patientService.getPatients());
+        }
+        else {
+            return response.failure("Authorization failed");
         }
 
-        return response.success(patientService.getPatients());
     }
 
     @DeleteMapping("/deletePatients")
     public ResponseEntity<List<Patient>> deletePatients(@RequestHeader("staff-id") String staffUuid, @RequestBody DeletePatientRequest request) {
-        if (!staffService.staffExist(staffUuid)) {
-            response.failure("Authorization failed");
+
+        log.info("deletePatients Staff ID Passed :"+staffUuid);
+
+        if (staffService.staffExist(staffUuid.trim())) {
+            return response.success(patientService.deletePatients(request));
+        }
+        else {
+            return response.failure("Authorization failed");
         }
 
-        return response.success(patientService.deletePatients(request));
     }
 
     /*@GetMapping("/downloadPatient")
@@ -53,17 +65,22 @@ public class PatientController {
     }*/
     @GetMapping("/downloadPatient")
     public ResponseEntity<Resource> downloadPatients(@RequestHeader("staff-id") String staffUuid, @RequestParam("id") Long patientId) {
-        if (!staffService.staffExist(staffUuid)) {
-            response.failure("Authorization failed");
+
+        log.info("downloadPatients Staff ID Passed :"+staffUuid);
+
+        if (staffService.staffExist(staffUuid)) {
+
+            String filename = "patients.csv";
+            InputStreamResource file = new InputStreamResource(patientService.load(patientId));
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                    .contentType(MediaType.parseMediaType("application/csv"))
+                    .body(file);
+        }
+        else {
+            return response.failure("Authorization failed");
         }
 
-        String filename = "patients.csv";
-        InputStreamResource file = new InputStreamResource(patientService.load(patientId));
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-                .contentType(MediaType.parseMediaType("application/csv"))
-                .body(file);
     }
 
 }
